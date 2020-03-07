@@ -1,0 +1,32 @@
+<!-- templates/home.html-->
+{% extends '../base.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <div class="jumbotron">
+    <h1>Your events list:</h1>
+  </div>
+  <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+  {% for perm in user.permission_set.all %}
+  	{% if perm.role == "owner" %}         
+      <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+      	<p>Your role is:{{ perm.role }}</p>
+      	<p>event name: {{ perm.event.event_name }}</p>
+      	<p>event place: {{ perm.event.event_place }}</p>
+      	<p>event time: {{ perm.event.event_time }}</p>
+        <p><a class="btn btn-info" href="{% url 'rsvp:event_owner_detail' perm.event.id %}">More Info</a></p>
+        <p><a class="btn btn-success" href="{% url 'rsvp:permission_create' perm.event.id %}">Invite</a></p> 
+      </div>
+    </div>      
+    {% endif %}
+  {% endfor %}
+  </div>
+  
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}

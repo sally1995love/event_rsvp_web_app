@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Event Question Index{% endblock %}
+{% block content %}
+  <h1>{{ question.question_text }}</h1>
+
+{% if error_message %}
+	<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% if not freetext %}
+	<form action="" method="post">
+		{% csrf_token %}
+		{% for choice in question.choice_set.all %}
+			<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+			<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+		{% endfor %}
+		<input type="submit" value="Vote" />
+	</form>
+{% else %}
+	<form action="" method="post">
+		{% csrf_token %}
+		<input type="text" name="free_text" placeholder="Enter your answer">
+  		<br>
+  		<input type="submit" value="Answer" />
+	</form>
+{% endif %}
+{% endblock %}

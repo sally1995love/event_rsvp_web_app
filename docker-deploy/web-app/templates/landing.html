@@ -1,0 +1,25 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+
+{% block title %}Landing Page{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+	<h1>Welcome to Our RSVP Web App</h1>
+		<h2>
+			Have fun managing your events!
+		</h2>
+	<div class="row" style="">
+		<ul>
+			<li>Create you own event</li>
+			<li>Register events</li>
+			<li>Design questions</li>
+			<li>Invite users</li>
+		</ul>
+	</div>
+	<p>
+		<a class="btn btn-success btn-large" href="{% url 'rsvp:home' %}">View my events</a>
+	</p>
+</div>
+{% endblock %}
+

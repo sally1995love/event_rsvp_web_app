@@ -1,0 +1,29 @@
+<!-- templates/home.html-->
+{% extends '../base.html' %}
+
+{% block title %}Events Owner Detail{% endblock %}
+
+{% block content %}
+  <p>Hi {{user.username}}!</p>
+  <div>Your events detail:</div>
+  {{event.event_name}}
+  <p><a href="{% url 'rsvp:question_create' event.id %}">Create Question for this event</a></p>
+  <a href="{% url 'rsvp:notify_question' event.id %}"><button>Notify Question</button></a>
+  {% for question in event.question_set.all %}
+    <p>Question Context: {{ question.question_text }}
+      <a class="btn btn-warning" href="{% url 'rsvp:question_revise' question.id %}">Edit Question</a>
+      <a class="btn btn-danger" href="{% url 'rsvp:question_delete' question.id %}">Delete Question</a>
+	  </p>
+    {% if not question.freetext %}
+      <p>Choice Context:
+  	    {% for choice in question.choice_set.all %}
+  	      <p>{{ choice.choice_text }}
+            <a class="btn btn-warning" href="{% url 'rsvp:choice_revise' choice.id %}">Edit Choice</a>
+  	      	<a class="btn btn-danger" href="{% url 'rsvp:choice_delete' choice.id %}">Delete Choice</a>
+  	      </p>
+  	    {% endfor %}
+  	    <p><a href="{% url 'rsvp:choice_create' question.id %}">Create Choice</a></p>
+      </p>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

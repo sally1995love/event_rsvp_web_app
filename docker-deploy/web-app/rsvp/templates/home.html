@@ -1,0 +1,67 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+	  <h1>
+	  	Hi {{ user.username }}!
+	  </h1>
+	  <div class="row">	  	
+	  	<div class="col-md-3 col-sm-6">
+	  		<div class="thumbnail">
+	  			<img src="https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-0.3.5&s=66082a26e692337ba5bee0c004d8152e&auto=format&fit=crop&w=1950&q=80">
+	  			<div class="caption">
+	  				<h4><a href="{% url 'rsvp:event_owner' %}">View owner events</a></h4>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="col-md-3 col-sm-6">
+	  		<div class="thumbnail">
+	  			<img src="https://images.unsplash.com/photo-1500111709600-7761aa8216c7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=43e9ffe868fc51695ec6dd718588859b&auto=format&fit=crop&w=1950&q=80">
+	  			<div class="caption">
+	  				<h4><a href="{% url 'rsvp:event_vendor' %}">View vendor events</a></h4>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="col-md-3 col-sm-6">
+	  		<div class="thumbnail">
+	  			<img src="https://images.unsplash.com/photo-1476040896332-d84e9246f456?ixlib=rb-0.3.5&s=510a2ec809494109b5491aa3e7decb28&auto=format&fit=crop&w=1350&q=80">
+	  			<div class="caption">
+	  				<h4><a href="{% url 'rsvp:event_guest' %}">View guest events</a></h4>
+	  			</div>
+	  		</div>
+	  	</div>
+	  
+	  <p>
+	  	<a class="btn btn-success btn-large" href="{% url 'rsvp:event_create' user.id %}">
+	  		<span class="glyphicon glyphicon-plus">
+	  			
+	  		</span>
+	  		Create my event!
+	  	</a>
+	  </p>
+	  <p><a class="btn btn-primary" href="{% url 'logout' %}">logout</a></p>
+	{% else %}
+	  <h1>You are not logged in</h1>
+	  <a class="btn btn-success" href="{% url 'login' %}">login</a>
+	{% endif %}
+
+{% endblock %}
+
+<div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        <% campgrounds.forEach(function(campground){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                   <img src="<%= campground.image %>">
+                   <div class="caption">
+                       <h4><%= campground.name %></h4>
+                   </div>
+                   <p>
+                       <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>

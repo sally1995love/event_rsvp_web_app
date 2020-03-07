@@ -1,0 +1,39 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Answer Question Index{% endblock %}
+{% block content %}
+  <h2>You are going to register {{e.event_name}}!</h2>
+  <p>Event place: {{e.event_place}}</p>
+  <p>Event time: {{e.event_time}}</p>
+  <h2>Answered Questions</h2>
+  <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+  {% for r in responses %}
+    <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+          <p>Question: {{ r.choice.question.question_text }}</p>
+          {% if not r.choice.question.freetext %}
+            {% for choice in r.choice.question.choice_set.all %}
+              {% if r.choice == choice %}
+                <li><strong>{{ choice.choice_text }}</strong></li>
+              {% else %}
+                <li>{{ choice.choice_text }}</li>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <li>Your answer: {{r.choice.choice_text}}</li>
+          {% endif %}
+        </div>
+      </div>
+  {% endfor %}
+  </div>
+  <p>You haven't answered these questions</p>
+  {% for q in unanswered %}
+    <p>
+      <a href="{% url 'rsvp:guest_answer' q.id %}">{{q.question_text}}</a>
+    </p>    
+  {% endfor %}
+  <form action="" method="POST">{% csrf_token %}
+    <input type="submit" value="Save" />
+  </form>
+{% endblock %}

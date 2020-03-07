@@ -1,0 +1,41 @@
+<!-- templates/home.html-->
+{% extends '../base.html' %}
+
+{% block title %}Events Detail{% endblock %}
+
+{% block content %}
+  <div class="jumbotron"><h2>You are invited in these events:</h2></div>
+  <div class="row" style="display:flex; flex-wrap: wrap;">
+  {% for e in user.event_set.all %}
+    <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+          <h4>event name: {{e.event_name}}</h4>
+          <h4>event place: {{e.event_place}}</h4>
+          <h4>event time: {{e.event_time}}</h4>      
+          {% for p in e.permission_set.all %}
+            {% if p.role == "guest" %}
+              <p><a class="btn btn-success" href="{% url 'rsvp:guest_answer_index' p.id %}">Accept Invitation</a></p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>    
+  {% endfor %}
+  </div>
+  <div class="jumbotron"><h1>Your events detail:</h1></div>
+  <div class="row" style="display:flex; flex-wrap: wrap;">
+  {% for p in user.permission_set.all %}
+    
+    {% if p.role == "guest" %}
+    <div class="col-md-3 col-sm-6">
+        <div class="thumbnail">
+      <h4>Event name:{{ p.event.event_name }}</h4>
+      <h4>Event place:{{ p.event.event_place }}</h4>
+      <h4>Event time:{{ p.event.event_time }}</h4>
+      <h4><a class="btn btn-info" href="{% url 'rsvp:event_guest_detail' p.event.id %}">More info</a></h4>
+        </div>
+      </div>
+    {% endif %}
+      
+  {% endfor %}
+  </div>
+{% endblock %}

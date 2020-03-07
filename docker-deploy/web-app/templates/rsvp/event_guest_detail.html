@@ -1,0 +1,35 @@
+<!-- templates/home.html-->
+{% extends '../base.html' %}
+
+{% block title %}Events Detail{% endblock %}
+
+{% block content %}
+  <p>Hi {{user.username}}!</p>
+  <div>Your events detail:</div>
+  {{event.event_name}}
+  <p>You have answered these questions!</p>
+  {% for r in responses %}
+    <p>Question: {{ r.choice.question.question_text }}</p>
+      {% if not r.choice.question.freetext %}
+        {% for choice in r.choice.question.choice_set.all %}
+          {% if r.choice == choice %}
+            <li><strong>{{ choice.choice_text }}</strong></li>
+          {% else %}
+            <li>{{ choice.choice_text }}</li>
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+        <p>Your answer: {{ r.choice.choice_text }}</p>
+      {% endif %}
+
+      {% if r.choice.question.editable is True %}
+        <p><a href="{% url 'rsvp:answer_revise' r.id %}">Edit Answer for this question</a></p>
+      {% endif %}
+  {% endfor %}
+
+  <p>You haven't answered these questions!</p>
+  {% for question in unanswered %}
+    <p><a href="{% url 'rsvp:guest_answer_new' question.id %}">{{question.question_text}}</a></p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,15 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Event Question Index{% endblock %}
+{% block content %}
+  <h2>Created Choices</h2>
+  {% for c in choices %}
+  	<p>
+  		Choice Context: {{ c.choice_text }}
+  		<a href="{% url 'rsvp:notify_choice' c.question.id %}"><button>Notify Choice</button></a>
+  	</p>
+  {% endfor %}
+  <p><a href="{% url 'rsvp:choice_create' q.id %}">Create New Choice</a></p>
+  <p><a href="{% url 'rsvp:question_create_index' q.event.id%}">Done</a></p>
+{% endblock %}

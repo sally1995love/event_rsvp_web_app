@@ -1,0 +1,18 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}Event Question Index{% endblock %}
+{% block content %}
+  <h1>Event: {{event.event_name}}</h1>
+  <h2>You have created these questions</h2>
+  {% for q in questions %}
+  	<p>Question{{ forloop.counter }}: {{ q.question_text }}</p>
+  	<p>Vendor visible: {{ q.vendor_visible }}</p>
+    <ul>
+      {% for c in q.choice_set.all %}
+        <li>choice{{forloop.counter}}: {{c.choice_text}}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+  <p><a class="btn btn-success" href="{% url 'rsvp:question_create' event.id %}">Create New Question</a></p>
+{% endblock %}

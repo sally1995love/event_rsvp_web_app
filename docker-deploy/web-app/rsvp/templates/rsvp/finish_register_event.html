@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Finish Registering Event{% endblock %}
+
+{% block content %}
+  <h1>Thanks for registering event</h1>
+  {% for u in event.potential_users.all %}
+    <li>{{u}}</li>
+  {% endfor %}
+
+  <p><a href="{% url 'rsvp:home' %}">Go back to home</a></p>
+{% endblock %}
